@@ -11,7 +11,7 @@ function adicionarTarefa(titulo) {
     const novoId =  tarefas.length > 0 ? tarefas[tarefas.length - 1].id + 1 : 1;
     const tarefa = {
         id: novoId,
-        titulo: titulo,
+        titulo,
         concluida: false
     }
     tarefas.push(tarefa);
@@ -34,12 +34,35 @@ function concluirTarefa(id) {
         return
     }
     tarefa.concluida = true;
-
+    console.log(`Tarefa "${tarefa.titulo}" marcada como concluída.`);
 }
 
 function removerTarefa(id) {
+    const quantidadeAntes = tarefas.length;
     tarefas = tarefas.filter(tarefa => tarefa.id !== id);
+    if (tarefas.length === quantidadeAntes) {
+        console.log("Tarefa não encontrada.");
+        return;
+    }
+    console.log(`Tarefa ${id} removida com sucesso.`);
 }
+
+function listarPendentes() {
+    console.log("Lista de tarefas pendentes:");
+    const tarefasPendentes = tarefas.filter(tarefa => tarefa.concluida === false)
+    tarefasPendentes.forEach(tarefa => {
+        console.log(`${tarefa.id} - ${tarefa.titulo}`);
+    })
+}
+
+function listarConcluidas() {
+    console.log("Lista de tarefas concluídas:");
+    const tarefasConcluidas = tarefas.filter(tarefa => tarefa.concluida === true)
+    tarefasConcluidas.forEach(tarefa => {
+        console.log(`${tarefa.id} - ${tarefa.titulo}`);
+    })
+}
+
 
 
 adicionarTarefa("Tarefa nova");
@@ -50,3 +73,7 @@ listarTarefas();
 
 removerTarefa(7);
 listarTarefas();
+
+listarPendentes();
+
+listarConcluidas();
